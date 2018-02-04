@@ -144,50 +144,65 @@ def play_game():
 # put AI work here!
 #####################
 
+# also switches whose turn it is
+def place_piece(game, move):
+    (x, y) = move
+    (board, player) = game
+    # board[x][y] = "hello"# move(player)
+    return (board, (player + 1) % 2)
+
+
 # delete the function body / add helper functions
 # this currently just drops a piece into the first open column
 # (returns the new board and player after doing this)
-
 def minimax(game,depthRemaining):
     (board,player)=game
-
-
-
-
     state = status(game)
     if state !="Playing":
         return state
     if depthRemaining == 0:
-        return estimator(game) #change later
-
+        return estimator(game)
     possibleMoves = []
     for i in range(cols):
-
         new = is_legal_move(game, i)
         if new is not None:
             possibleMoves.append(new)
-
-
-
-
-
     if player%2==0:
-        return min([minimax(makeMove(game,move),depthRemaining-1) for move in possibleMoves])
+        return min([minimax(place_piece(game,move),depthRemaining-1) for move in possibleMoves])
     else:
-        return max([minimax(makeMove(game,move),depthRemaining-1) for move in possibleMoves])
+        return max([minimax(place_piece(game,move),depthRemaining-1) for move in possibleMoves])
 
-   # best = possibleMoves[estimations.indexOf(max(estimations))]
-
-
-   # minimax(game,depthRemaining-1)
-
-
+    best = possibleMoves[estimations.indexOf(max(estimations))]
+    minimax(game,depthRemaining-1)
     #if depth is odd, then the move made will be the max
     #if depth is even, then the move made will (theoretically) be the min
 
+def est_check(board, player):
+
+    for i in range(2, 5):
+        return word_search_score(board, player, i)
 
 
-  #  return best
+def word_search_score(board, word, num):
+    score = 0
+    for i in range(rows):
+        for j in range(cols):
+            if(word_search_from_square(board, word * num, i, j)):
+                score = score + num
+    return score
+
+def estimator(game):
+    player_list = ['o','x']
+    player = player_list[game[1]]
+    total = 0
+    for x in range(rows):
+        for y in range(cols-1):
+            total += est_check(game[0], player)
+    return  total
+
+
+
+
 def mostNumberInRow(game, new):
     (board, player) = game
     (x,y)=new
@@ -209,18 +224,17 @@ def mostNumberInRow(game, new):
     return max(vals)
 
 def AI_move(game):
-    best = minimax(game,1)
-    # (board, player) = game
-    #
-    # possibleMoves = []
-    # for i in range(cols):
-    #
-    #     new = is_legal_move(game, i)
-    #     if new is not None:
-    #         possibleMoves.append(new)
-    # minMax = [mostNumberInRow(game,n) for n in possibleMoves]
-    #
-    # best = possibleMoves[minMax.index(max(minMax))]
+    best = minimax(game,2)
+    (board, player) = game
+
+    possibleMoves = []
+    for i in range(cols):
+        new = is_legal_move(game, i)
+        if new is not None:
+            possibleMoves.append(new)
+            minMax = [mostNumberInRow(game,n) for n in possibleMoves]
+
+    best = possibleMoves[minMax.index(max(minMax))]
     (x, y) = best
     board[x][y] = 'x'
     return (board, (player + 1) % 2)
