@@ -2,7 +2,7 @@ import numpy as np
 from PIL import ImageGrab
 import os
 import time
- 
+
 def screenGrab():
     box = ()
     im = ImageGrab.grab()
