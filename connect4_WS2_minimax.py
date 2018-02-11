@@ -178,7 +178,6 @@ def minimax(game,depthRemaining):
     #if depth is even, then the move made will (theoretically) be the min
 
 def est_check(board, player):
-
     for i in range(2, 5):
         return word_search_score(board, player, i)
 
@@ -187,8 +186,19 @@ def word_search_score(board, word, num):
     score = 0
     for i in range(rows):
         for j in range(cols):
-            if(word_search_from_square(board, word * num, i, j)):
+            if(word_search_from_square(board, 'x' * num, i, j)):
+                if num == 4:
+                    return score + 1000000
                 score = score + num
+
+
+    for i in range(rows):
+        for j in range(cols):
+            if (word_search_from_square(board, 'o' * num, i, j)):
+                if num == 4:
+                    return score - 10000000000
+                score = score - num
+
     return score
 
 def estimator(game):
