@@ -7,6 +7,11 @@ from tflearn.layers.estimator import regression
 from statistics import median, mean
 from collections import Counter
 
+#########################################################################
+# Based on the folowing Youtube tutorial
+# https://www.youtube.com/watch?v=3zeg7H6cAJw
+#########################################################################
+
 LR = 1e-3
 env = gym.make("CartPole-v0")
 env.reset()
