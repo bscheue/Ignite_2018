@@ -14,7 +14,7 @@ env = gym.make("CartPole-v0") #Chooses the car pole game(or any game)
 env.reset() #Resets the enviroment, must be done to set up at start
 goal_steps = 500 #Score that we are aiming for, not needed for gym
 score_requirement = 50 #minimum score that will be deemed "Successful"
-initial_games = 10000 #how many games the machine will play for its model
+initial_games = 50 #how many games the machine will play for its model
 
 #####################################################################
 #This is just a first tester function
@@ -64,7 +64,7 @@ def initial_population():
 		#the previous observation 
 		#then actually start the game running through the frames
 		for _ in range(goal_steps):
-
+			env.render()
 			action = env.action_space.sample()
 			#take a random action based on what is available in the game
 			#different the the tutorial because this way should be universal
@@ -76,7 +76,8 @@ def initial_population():
 
 		if score >= score_requirement:
 			accepted_scores.append(score)
-
+			for data in game_memory:
+				training_data.append(data[0],data[1])
 			# Now The tutorial switches it to binary, Im gonna try and not do that
 
 		env.reset()
