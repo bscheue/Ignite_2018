@@ -89,7 +89,7 @@ def initial_population():
 	# some stats here, to further illustrate the neural network magic!
 	print('Average accepted score:',mean(accepted_scores))
 	print('Median score for accepted scores:',median(accepted_scores))
-	print(Counter(accepted_scores))
+	#print(Counter(accepted_scores))
 
 	return training_data
 initial_population()
