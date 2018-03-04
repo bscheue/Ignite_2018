@@ -19,6 +19,7 @@ env = gym.make('flashgames.NeonRace-v0')
 env.configure(remotes=1)  # automatically creates a local docker container
 observation_n = env.reset()
 
+
 # Create variable for moving the car
 goleft = [('KeyEvent', 'ArrowUp', True), ('KeyEvent', 'ArrowLeft', True),
           ('KeyEvent', 'ArrowRight', False)]
