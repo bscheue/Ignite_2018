@@ -76,8 +76,8 @@ def compare_alpha_beta(interval, temp):
     # the order that you check in here is important for typechecking
     # :(
     print(alpha, beta, temp)
-    #if(alpha == "-inf" and beta == "-inf"):
-    #    return 1/0
+    if(alpha == "-inf" and beta == "-inf"):
+        return 1/0
     if (alpha == "-inf" and beta == "inf"):
         return "IN"
     elif (alpha == "inf" and beta == "inf"):

@@ -137,14 +137,15 @@ def play_game():
 # put AI work here!
 #####################
 
-# also switches whose turn it is
-def place_piece(game, move):
-    (x, y) = move
-    (board, player) = game
-    # board[x][y] = "hello"# move(player)
-    return (board, (player + 1) % 2)
+def moves(game_state):
+    (board, player) = game_state
+    allmoves = []
+    for i in range(7):
+        for j in range(6, -1, -1):
+            if board[i][j] == "-":
+                allmoves.append((i, j))
 
-
+    return allmoves
 def search(depth, game_state, interval):
     allmoves = moves(game_state)
     (board, player) = game_state
@@ -165,7 +166,7 @@ def maxie(depth, game_state, interval, allmoves, best):
 	# you had [] as () originally, we want the first thing in the moves list
         first = allmoves[0]
         # should evaluate made move (originally just kept current game state)
-        temp = evaluate(depth - 1, make_move(game_state, first), interval)
+        temp = evaluate(depth - 1, make_move((game_state, first)), interval)
         # print(temp)
         pos = compare_alpha_beta(interval, temp)
         # making sure that we don't pass down None as our best
@@ -188,7 +189,7 @@ def minie(depth, game_state, interval, allmoves, best):
     else:
         first = allmoves[0]
         # should evaluate made move
-        temp = evaluate(depth - 1, make_move(game_state, first), interval)
+        temp = evaluate(depth - 1, make_move((game_state, first)), interval)
         # print(temp)
         pos = compare_alpha_beta(interval, temp)
         some_best = best if best is not None else (temp, first)
@@ -351,7 +352,8 @@ def mostNumberInRow(game, new):
 
 def AI_move(game):
     print("Alice")
-    best = next_move(game,"maxie")
+    game_state = (game, "maxie")
+    best = next_move(game_state)
     (board, player) = game
 
     possibleMoves = []
