@@ -36,6 +36,8 @@ def init(data):
     data.started = False
     data.placed_col = -1
     data.game_board = make_board(data)
+    data.winner ="" 
+    data.clickwidth = 0
 
 def mousePressed(event, data):
     if data.current_screen == "start":
@@ -57,7 +59,13 @@ def mousePressed(event, data):
                 data.playera = "A"
             if (event.y > data.height/2+50) and (event.y < data.height/2 + 150):
                 data.playerb = "A"
-
+    
+    if data.current_screen == "grid":
+        data.clickwidth = (event.x - 50)
+        col = (int)(data.clickwidth // data.square_width)
+        data.made_move = True
+        data.placed_col = col
+        
 def keyPressed(event, data):
     if data.current_screen == "start":
         if event.keysym == "s":
@@ -66,16 +74,17 @@ def keyPressed(event, data):
         if event.keysym == "m":
             data.current_screen = "start"
             clearBoard(data)
-    if data.current_screen == "grid":
-        if event.keysym in ["1","2","3","4","5","6","7"]:
-            data.made_move = True
-            data.placed_col = int(event.keysym)-1
+    #if data.current_screen == "grid":
+        #if event.keysym in ["1","2","3","4","5","6","7"]:
+           # data.made_move = True
+            #data.placed_col = int(event.keysym)-1
 
     if data.current_screen == "int":
         if event.keysym == "r":
             data.current_screen = "grid"
             data.game_board = make_board(data)
             data.made_move = True
+            
             
 def timerFired(data): pass
 
@@ -92,6 +101,8 @@ def redrawAll(canvas, data):
         drawAllChips (canvas, data)
     elif data.current_screen == "rules":
         rulesScrn(canvas, data)
+    elif data.current_screen == "end":
+        intScreen2(canvas, data)
 
 #Run function for animation barebone
 def run(width=300, height=300):
