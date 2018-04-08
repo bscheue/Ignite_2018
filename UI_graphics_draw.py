@@ -23,6 +23,15 @@ def draw_grid(canvas, data):
             a = x + data.square_width
             b = y + data.square_height
             canvas.create_rectangle(x, y, a,b)
+    player_color = "blank"
+    if data.current_player == 0:
+        player_color = "Red"
+    if data.current_player == 1:
+        player_color = "Blue"
+        
+        
+    canvas.create_text(50, 25, fill = "#bd0093", 
+                        font="Times 40 italic bold", text = player_color)
 
 def dropChip (canvas, data, row, column, color):
     x1 = data.margin + data.square_width*column +25
@@ -92,6 +101,13 @@ def rulesScrn (canvas, data):
     canvas.create_rectangle(0,0,data.width,data.height,fill = "#27b6a3")
     canvas.create_text(640, data.margin, fill = "#141519",
         font="Times 68 italic bold", text = "Rules")
+        
+def intScreen2 (canvas, data):
+    canvas.create_rectangle(0,0,data.width, data.height, fill = "#7f81a8" )
+    canvas.create_rectangle(data.margin, data.margin, 
+        data.width-data.margin, data.height-data.margin,fill = "#dda02c")
+    canvas.create_text(640, 200, fill = "#141519",
+        font="Times 68 italic bold", text =  data.winner + " wins! Press m to restart!")
     
 def startScreen (canvas, data):
     canvas.create_rectangle(0,0,data.width,data.height,fill = "#702121")
@@ -99,7 +115,6 @@ def startScreen (canvas, data):
     playBtn(canvas, data)
     info1(canvas, data)
     info2(canvas, data)
-    settingBtn (canvas, data)
 
 def playBtn (canvas, data):
     canvas.create_rectangle(data.margin, data.margin+50,
@@ -119,10 +134,7 @@ def info2 (canvas, data):
     canvas.create_text(data.width*0.75, data.height*0.625,fill="#e2c24f",
         font="Times 40 italic bold",text="Project Info")
     
-def settingBtn (canvas, data):
-    canvas.create_oval(data.width - data.margin * 2.75, 
-        data.height - data.margin*2.75,data.width - data.margin, 
-        data.height-data.margin, fill = "#122a33")
+
     
 
 def title(canvas, data):
