@@ -1,4 +1,5 @@
 import copy
+import ab_sd1
 
 # prints the current board state
 def print_board(board):
@@ -94,109 +95,6 @@ def make_move(data, game, ipt):
     return (board, player)
 
 #####################
-# put AI work here!
-#####################
-
-# also switches whose turn it is
-def place_piece(game, move):
-    (x, y) = move
-    (board, player) = game
-    # board[x][y] = "hello"# move(player)
-    return (board, (player + 1) % 2)
-
-# delete the function body / add helper functions
-# this currently just drops a piece into the first open column
-# (returns the new board and player after doing this)
-def minimax(game,depthRemaining):
-    (board,player)=game
-    state = status(game)
-    if state !="Playing":
-        return state
-    if depthRemaining == 0:
-        return estimator(game)
-    possibleMoves = []
-    for i in range(cols):
-        new = is_legal_move(game, i)
-        if new is not None:
-            possibleMoves.append(new)
-    if player%2==0:
-        return min([minimax(place_piece(game,move),depthRemaining-1) \
-            for move in possibleMoves])
-    else:
-        return max([minimax(place_piece(game,move),depthRemaining-1) \
-            for move in possibleMoves])
-
-    best = possibleMoves[estimations.indexOf(max(estimations))]
-    minimax(game,depthRemaining-1)
-    #if depth is odd, then the move made will be the max
-    #if depth is even, then the move made will (theoretically) be the min
-
-def est_check(board, player):
-    for i in range(2, 5):
-        return word_search_score(board, player, i)
-
-def word_search_score(board, word, num):
-    score = 0
-    for i in range(data.rows):
-        for j in range(cols):
-            if(word_search_from_square(board, 'x' * num, i, j)):
-                if num == 4:
-                    return score + 1000000
-                score = score + num
-
-    for i in range(data.rows):
-        for j in range(cols):
-            if (word_search_from_square(board, 'o' * num, i, j)):
-                if num == 4:
-                    return score - 10000000000
-                score = score - num
-    return score
-
-def estimator(game):
-    player_list = ['o','x']
-    player = player_list[game[1]]
-    total = 0
-    for x in range(data.rows):
-        for y in range(cols-1):
-            total += est_check(game[0], player)
-    return  total
-
-def mostNumberInRow(game, new):
-    (board, player) = game
-    (x,y)=new
-
-    directions = ((1,0),(0,1),(-1,0),(0,-1),(1,1),(-1,-1),(1,-1),(-1,1))
-    vals = [0 for i in range(8)]
-
-    for i in range(8):
-        startX, startY = x+directions[i][0],y+directions[i][1]
-        while startX!=-1 and startY !=cols and startY!=-1 and startX!=data.rows:
-
-            if board[startX][startY]=='x':
-                vals[i]+=1
-            else:
-                break
-            startX += directions[i][0]
-            startY += directions[i][1]
-    return max(vals)
-
-def AI_move(game):
-    best = minimax(game,2)
-    (board, player) = game
-
-    possibleMoves = []
-    for i in range(cols):
-        new = is_legal_move(game, i)
-        if new is not None:
-            possibleMoves.append(new)
-            minMax = [mostNumberInRow(game,n) for n in possibleMoves]
-
-    best = possibleMoves[minMax.index(max(minMax))]
-    (x, y) = best
-    board[x][y] = 'x'
-    return (board, (player + 1) % 2)
-
-#####################
 def play_game(data):
     if(status((data.game_board, data.current_player), data) == "Playing"):
         if (data.made_move == True):
@@ -208,22 +106,18 @@ def play_game(data):
     elif(status((data.game_board, data.current_player), data) != "Playing"):
         data.current_screen = "end"
 
-# run this function if you want to play against your AI
-def against_AI():
-    board = make_board()
-    player = 0
-    print("Here is the starting board:")
-    print_board(board)
-    while(status((board, player)) == "Playing"):
-        if player == 0:
-            (board, player) = make_move((board, player))
-            if board == "quit":
-                print("Game exited")
-                return
+def play_AI_game(data):
+    if(status((data.game_board, data.current_player), data) == "Playing"):
+        if(data.current_player == 0):
+            if (data.made_move == True):
+                col = data.placed_col
+                game = (data.game_board, data.current_player)
+                (board,player) = make_move(data, game, col)
+                data.game_board = board
+                data.made_move = False
         else:
-            (board, player) = AI_move((board, player))
-            print("Here is the board now:")
-            print_board(board)
-    print(status((board, player)))
-    print("Thanks for playing!!")
-    return None
+            game = (data.game_board, data.current_player)
+            (data.game_board, data.current_player) = ab_sd1.AI_move(game)
+
+    elif(status((data.game_board, data.current_player), data) != "Playing"):
+        data.current_screen = "end"
