@@ -97,7 +97,10 @@ def redrawAll(canvas, data):
     elif data.current_screen == "grid":
         draw_grid(canvas, data)
         if data.started != True:
-            play_game(data)
+            if(data.playera == "A" or data.playerb == "A"):
+                play_AI_game(data)
+            else:
+                play_game(data)
         drawAllChips (canvas, data)
     elif data.current_screen == "rules":
         rulesScrn(canvas, data)

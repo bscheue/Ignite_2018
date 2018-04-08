@@ -113,27 +113,6 @@ def make_board():
     return board
 
 #####################
-
-# run this function to player two player, human vs human
-def play_game():
-    board = make_board()
-    player = 0
-    print("Here is the starting board:")
-    print_board(board)
-    while(status((board, player)) == "Playing"):
-        print("It's Player %i's move!" % player)
-        (board, player) = make_move((board, player))
-        if board == "quit":
-            print("Game exited")
-            return
-        print("Here is the board now:")
-        print_board(board)
-    print(status((board, player)))
-    print("Thanks for playing!!")
-    return None
-
-
-#####################
 # put AI work here!
 #####################
 
@@ -413,4 +392,4 @@ def against_AI():
     print("Thanks for playing!!")
     return None
 
-against_AI()
+#against_AI()
