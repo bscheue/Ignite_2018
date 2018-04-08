@@ -263,11 +263,11 @@ def compare_alpha_beta(interval, temp):
         return "IN"
     elif (alpha == "inf" and beta == "inf"):
         return "BELOW"
-    elif (beta == "inf" and temp <= alpha):
-        return "BELOW"
     elif (temp == "inf"):
         return "ABOVE"
     elif (temp == "-inf"):
+        return "BELOW"
+    elif (beta == "inf" and temp <= alpha):
         return "BELOW"
     elif (beta == "inf" and temp > alpha):
         return "IN"
@@ -294,9 +294,9 @@ def next_move(game_state):
 def win_states_estimator(game_state):
     winner = status(game_state)
     if winner == "Winner: o":
-        return "inf"
-    if winner == "Winner: x":
         return "-inf"
+    if winner == "Winner: x":
+        return "inf"
     return 0
 
 def est_check(board, player):
