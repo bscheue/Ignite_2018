@@ -141,32 +141,48 @@ def moves(game_state):
     (board, player) = game_state
     allmoves = []
     for i in range(7):
-        for j in range(6, -1, -1):
-            if board[i][j] == "-":
-                allmoves.append((i, j))
-
+        a =  is_legal_move(game_state,i)
+        if a is not None:
+            allmoves.append(a)
     return allmoves
+
 def search(depth, game_state, interval):
     allmoves = moves(game_state)
     (board, player) = game_state
-    if player == "maxie":
+    if player == 1:
 	# typo, you called maxie_search
 	# i think the fn names got written in multiple ways somewhere
     # i think by game you meant game_state
-        return maxie(depth, game_state, interval, allmoves, None)
+        a = maxie(depth, game_state, interval, allmoves, None)
+        # print("maxie", a)
+        assert(a is not None)
+        return a
     else:
-        return minie(depth, game_state, interval, allmoves, None)
+        a = minie(depth, game_state, interval, allmoves, None)
+        # print("minie", a)
+        assert(a is not None)
+        return a
+
+def FIXED_move(game_state, cord):
+    (i, j) = cord
+    (board, player) = game_state
+    board = copy.deepcopy(board)
+    board[i][j] = move(player)
+    return (board, (player + 1) % 2)
 
 def maxie(depth, game_state, interval, allmoves, best):
     #best is a tuple
     (alpha, beta) = interval
     if allmoves == []:
+        # print("best", best)
+        assert(best is not None)
         return best
     else:
 	# you had [] as () originally, we want the first thing in the moves list
         first = allmoves[0]
+        # print(first)
         # should evaluate made move (originally just kept current game state)
-        temp = evaluate(depth - 1, make_move((game_state, first)), interval)
+        temp = evaluate(depth - 1, FIXED_move(game_state, first), interval)
         # print(temp)
         pos = compare_alpha_beta(interval, temp)
         # making sure that we don't pass down None as our best
@@ -185,37 +201,52 @@ def minie(depth, game_state, interval, allmoves, best):
     #best is a tuple
     (alpha, beta) = interval
     if allmoves == []:
+        # print("best", best)
+        assert(best is not None)
         return best
     else:
         first = allmoves[0]
         # should evaluate made move
-        temp = evaluate(depth - 1, make_move((game_state, first)), interval)
+        temp = evaluate(depth - 1, FIXED_move(game_state, first), interval)
         # print(temp)
         pos = compare_alpha_beta(interval, temp)
         some_best = best if best is not None else (temp, first)
+        assert (some_best is not None)
         if pos == "ABOVE":
-            return minie(depth, game_state, interval, allmoves[1:], some_best)
+            a = minie(depth, game_state, interval, allmoves[1:], some_best)
+            # print("ABOVE", a)
+            assert(a is not None)
+            return a
         if pos == "IN":
             new_best = (temp, first)
             new_interval = (alpha, temp)
-            return maxie(depth, game_state, new_interval, allmoves[1:], new_best)
+            a = minie(depth, game_state, new_interval, allmoves[1:], new_best)
+            # print("IN", a)
+            assert(a is not None)
+            return a
         if pos == "BELOW":
-            return (temp, first)
+            a =  (temp, first)
+            # print("BELOW", a)
+            assert(a is not None)
+            return a
+        # print("OHADGODFSDOG", pos)
+            
 
 # changed arguments - could have more arguments and directly call
 # minie or maxie but just calling search should work fine
 def evaluate(depth, game_state, interval):
-    print("here")
+    # print("here")
     (board, player) = game_state
     # changing this a bit to add print statements for debugging
     if depth == 0:
         cur_status = status(game_state)
-        if cur_status == "Winner x" or cur_status == "Winner o":
+        if cur_status == "Winner: x" or cur_status == "Winner: o":
             return win_states_estimator(game_state)
-        print("shalom")
         est = estimator(board)
         return est
-    (estimate, move) = search(depth, game_state, interval)
+    a = search(depth, game_state, interval)
+    # print(a, depth, game_state,interval)
+    (estimate, move) = a
     return estimate
 
 # yeahh this function is terrible - i added some cases
@@ -224,15 +255,14 @@ def compare_alpha_beta(interval, temp):
     (alpha, beta) = interval
     # the order that you check in here is important for typechecking
     # :(
-    print(alpha, beta, temp)
+    # print(alpha, beta, temp)
+    print(interval, temp)
     if(alpha == "-inf" and beta == "-inf"):
-        return 1/0
-    if (alpha == "-inf" and beta == "inf"):
+        return "ABOVE"
+    elif (alpha == "-inf" and beta == "inf"):
         return "IN"
     elif (alpha == "inf" and beta == "inf"):
         return "BELOW"
-    elif (alpha == "-inf" and beta == "-inf"):
-        return "ABOVE"
     elif (beta == "inf" and temp <= alpha):
         return "BELOW"
     elif (temp == "inf"):
@@ -251,18 +281,21 @@ def compare_alpha_beta(interval, temp):
         return "BELOW"
     elif (temp > beta):
         return "ABOVE"
+    # this line is terrible code
+    else:
+        return "IN"
 
 def next_move(game_state):
     interval = ("-inf", "inf")
-    depth = 1 # for now
+    depth = 2 # for now
     (estimate, move) = search(depth, game_state, interval)
     return move
 
 def win_states_estimator(game_state):
     winner = status(game_state)
-    if winner == "Winner o":
+    if winner == "Winner: o":
         return "inf"
-    if winner == "Winner x":
+    if winner == "Winner: x":
         return "-inf"
     return 0
 
@@ -321,12 +354,11 @@ def word_search_Count(board, word):
           #['-','-','-','-','-','-','-'],
           #['-','-','-','o','-','-','-'],
           #['-','-','o','x','x','x','-']]
-#print(centerChecker(board1), chainChecker(board1))
+# print(centerChecker(board1), chainChecker(board1))
 def estimator(board):
     #checking game status
-    total = 0
     total = chainChecker(board)-centerChecker(board)
-    print(total)
+    # print(total)
     return total
 
 
@@ -351,21 +383,25 @@ def mostNumberInRow(game, new):
     return max(vals)
 
 def AI_move(game):
-    print("Alice")
-    game_state = (game, "maxie")
+    # print("Alice")
+    # game_state = (game, "maxie")
+    game_state = game
     best = next_move(game_state)
+    (i,j) = best
     (board, player) = game
+    board[i][j] = 'x'
 
-    possibleMoves = []
-    for i in range(cols):
-        new = is_legal_move(game, i)
-        if new is not None:
-            possibleMoves.append(new)
-            minMax = [mostNumberInRow(game,n) for n in possibleMoves]
-
-    best = possibleMoves[minMax.index(max(minMax))]
-    (x, y) = best
-    board[x][y] = 'x'
+    # print("TTTTTTTTTTTTTTTTTTTT----BEST", best)
+    # print(1/0)
+    # possibleMoves = []
+    # # for i in range(cols):
+    # #     new = is_legal_move(game, i)
+    # #     if new is not None:
+    # # possibleMoves.append(new)
+    # minMax = [mostNumberInRow(game,n) for n in possibleMoves]
+    # best = possibleMoves[minMax.index(max(minMax))]
+    # (x, y) = best
+    # board[x][y] = 'x'
     return (board, (player + 1) % 2)
 
 #####################
@@ -378,14 +414,19 @@ def against_AI():
     print_board(board)
     while(status((board, player)) == "Playing"):
         if player == 0:
+            print(len(board), len(board[0]))
             (board, player) = make_move((board, player))
             if board == "quit":
                 print("Game exited")
                 return
         else:
+            # print("---------------------")
+            print(player)
             (board, player) = AI_move((board, player))
             print("Here is the board now:")
             print_board(board)
+            # print(player)
+            # assert (1==0)
     print(status((board, player)))
     print("Thanks for playing!!")
     return None
