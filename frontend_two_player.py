@@ -1,5 +1,5 @@
 import copy
-import ab_sd1
+import ab_integrated
 
 # prints the current board state
 def print_board(board):
@@ -117,7 +117,7 @@ def play_AI_game(data):
                 data.made_move = False
         else:
             game = (data.game_board, data.current_player)
-            (data.game_board, data.current_player) = ab_sd1.AI_move(game)
+            (data.game_board, data.current_player) = ab_integrated.AI_move(game)
 
     elif(status((data.game_board, data.current_player), data) != "Playing"):
         data.current_screen = "end"

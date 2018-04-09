@@ -357,7 +357,7 @@ def word_search_Count(board, word):
 # print(centerChecker(board1), chainChecker(board1))
 def estimator(board):
     #checking game status
-    total = chainChecker(board)-centerChecker(board)
+    total = 4 * chainChecker(board)- 0.5 * centerChecker(board)
     # print(total)
     return total
 
@@ -431,4 +431,4 @@ def against_AI():
     print("Thanks for playing!!")
     return None
 
-against_AI()
+#against_AI()
