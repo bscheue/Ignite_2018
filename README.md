@@ -7,8 +7,10 @@ Students:
 Trey Natili, Thomas Chang, Jack Cameron, Otis Smith, Will Aracri, Kyle
 Carskadden
 
-Advisors:
+
+Project Advisors:
 
 Brian Scheuermann, Tiffany Ma, Tyler Sikov
+
 
 How to use:
