@@ -1,8 +1,12 @@
-# Ignite_2018
+# Project Ignite 2018 Video Game AI Group
 
-One Paragraph of project description goes here
+This was a project done by Otis Smith, Jack Cameron, Will Aracri, Kyle Carskadden, Trey Natili, and Thomas Chang over a ten week period through Carnegie Mellon University's Project Ignite, with the assistance of Brian Scheuermann, Tiffany Ma, and Tyler Sikov. The project was presented at a showcase event at CMU in April, 2018. 
+
+The project was split into two main portions, programming an alpha-beta algorithm to play Connect 4, and using reinforcement learning to play simple simulations (CartPole and Pendulum) from OpenAI's Gym. 
 
 ## Getting Started
+
+
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
