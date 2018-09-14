@@ -63,7 +63,7 @@ Give an example
 
 ## Authors
 
-* **Otis Smith** - *Initial work* - [PurpleBooth](https://github.com/themroats)
+* **Otis Smith** - *Writing Readme and work on TensorFlow portion* - [themroats](https://github.com/themroats)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
