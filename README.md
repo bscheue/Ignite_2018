@@ -40,4 +40,7 @@ To use play against our Connect4 AI, go to the Alpha_Beta_Connect4 folder and op
 * **Tiffany Ma** - *Advised project, inclduing teaching Python graphics to Thomas and Trey and helping create the frontend*
 * **Tyler Sikov** - *Advised project*
 
+## Project Ignite
+This project was made possible through a student organization at Carnegie Mellon University called [Project Ignite]
+(https://projectignitecmu.org/). Click on their site to learn more!
 
