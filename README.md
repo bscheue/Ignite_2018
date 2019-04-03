@@ -4,6 +4,8 @@ This was a project done by Otis Smith, Jack Cameron, Will Aracri, Kyle Carskadde
 
 The project was split into two main portions, programming an alpha-beta algorithm to play Connect 4, and using reinforcement learning to play simple simulations (CartPole and Pendulum) from OpenAI's Gym.
 
+Here is Project Ignite's [official CMU website](https://projectignitecmu.org/).
+
 ## Prerequisites
 
 Before trying to run any of the files, make sure that Python 3, TensorFlow, and OpenAI Gym are all installed properly. See the individual product websites for each for installation instructions.
