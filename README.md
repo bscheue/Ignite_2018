@@ -43,6 +43,5 @@ To use play against our Connect4 AI, go to the Alpha_Beta_Connect4 folder and op
 * **Tyler Sikov** - *Advised project*
 
 ## Project Ignite
-This project was made possible through a student organization at Carnegie Mellon University called [Project Ignite]
-(https://projectignitecmu.org/). Click on their site to learn more!
+This project was made possible through a student organization at Carnegie Mellon University called [Project Ignite](https://projectignitecmu.org/). Click on their site to learn more!
 
